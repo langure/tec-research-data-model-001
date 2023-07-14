@@ -15,6 +15,11 @@ class YouTubeChannel(Base):
     subscribers = Column(Integer)
     views = Column(Integer)
     videos = Column(Integer)
+    audience_gender = Column(String(255))
+    audience_avg_age = Column(Integer)
+    topic = Column(String(255))
+    language = Column(String(255))
+    country = Column(String(255))
     created_at = Column(DateTime, default=func.now())
     updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
     
@@ -36,6 +41,7 @@ class YouTubeChannel(Base):
 class YouTubeComment(Base):
     __tablename__ = 'youtube_comments'
     id = Column(Integer, primary_key=True, autoincrement=True)
+    channel_youtube_id = Column(String(255))
     youtube_id = Column(String(255))
     author = Column(String(255))
     text = Column(Text)
@@ -45,8 +51,9 @@ class YouTubeComment(Base):
     updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
 
 
-    def __init__(self, youtube_id, author, text, likes, date):        
+    def __init__(self, youtube_id, channel_youtube_id, author, text, likes, date):        
         self.youtube_id = youtube_id
+        self.channel_youtube_id = channel_youtube_id    
         self.author = author
         self.text = text
         self.likes = likes
@@ -88,5 +95,12 @@ class DatabaseDriver:
         Session = sessionmaker(bind=self.engine)
         session = Session()
         session.add(youtube_comment)
+        session.commit()
+        session.close()
+        
+    def save_youtube_channel(self, youtube_channel):
+        Session = sessionmaker(bind=self.engine)
+        session = Session()
+        session.add(youtube_channel)
         session.commit()
         session.close()
