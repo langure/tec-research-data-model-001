@@ -36,3 +36,5 @@ run
 ```bash
 python main.py
 ```
+
+<img width="579" alt="ER" src="https://github.com/langure/tec-research-data-model-001/assets/106360071/7ce00420-5186-4f12-95bf-1c8be7ab3e9d">
